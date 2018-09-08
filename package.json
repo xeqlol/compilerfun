@@ -1,0 +1,16 @@
+{
+  "name": "compilerbois",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "nodemon": "^1.18.4",
+    "pegjs": "^0.10.0",
+    "prettier": "^1.14.2"
+  },
+  "scripts": {
+    "watch": "nodemon index.js",
+    "generate-parser": "yarn pegjs -o src/parser/index.js src/grammar/grammar.pegjs",
+    "compile": "node src/index.js"
+  }
+}
