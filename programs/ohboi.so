@@ -1,8 +1,0 @@
-(
-  fn x: number ->
-    (fn y: number -> x) 0
-)
-inc (
-  fn f: number ->
-    (fn g: number -> g) 0
-) 0

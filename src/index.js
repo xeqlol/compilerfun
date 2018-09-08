@@ -1,11 +1,10 @@
 const { parse } = require('./parser');
 const { check } = require('./types');
 const { compile } = require('./codegen');
-const { readFileSync, existsSync } = require('fs');
 
 const getAst = program => {
   const ast = parse(program);
-  const diagnostics = check(ast).diagnostics;
+  const { diagnostics } = check(ast);
 
   if (diagnostics.length) {
     console.error(diagnostics.join('\n'));
@@ -15,15 +14,7 @@ const getAst = program => {
   return ast;
 };
 
-const filename = process.argv.pop();
-
-if (!existsSync(filename)) {
-  console.error(`"${fileName}" does not exist.`);
-  process.exit(1);
-}
-
-const program = readFileSync(filename, { encoding: 'utf-8' });
-const ast = getAst(program);
-const compiled = compile(ast);
-
-console.log(compiled);
+module.exports.run = source => {
+  const ast = getAst(source);
+  return compile(ast);
+};

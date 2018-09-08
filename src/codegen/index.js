@@ -20,7 +20,7 @@ const compile = ast => {
       return `${targetCondition} ? ${targetThen} : ${targetElse}\n`;
     }
     case ASTNodes.Abstraction: {
-      return `(${ast.arg.id.name} => {return ${compile(ast.body)}})`;
+      return `(${ast.arg.id.name} => ${compile(ast.body)})`;
     }
     case ASTNodes.IsZero: {
       return `${compile(ast.expression)} === 0\n`;
@@ -28,12 +28,14 @@ const compile = ast => {
     case ASTNodes.Arithmetic: {
       const { operator } = ast;
       const value = compile(ast.expression);
+      /* eslint default-case: off */
       switch (operator) {
         case 'inc':
           return `${value} + 1\n`;
         case 'pred':
-          return `(${val} - 1 >= 0) ? ${val} - 1 : 0\n`;
+          return `(${value} - 1 >= 0) ? ${value} - 1 : 0\n`;
       }
+      break;
     }
     case ASTNodes.Application: {
       const left = compile(ast.left);

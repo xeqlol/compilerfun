@@ -1,1 +1,0 @@
-(fn a: number -> inc inc a) 0

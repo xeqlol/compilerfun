@@ -17,7 +17,7 @@ Abstraction = _ '('* _ Fn _ id:Identifier ':' t:Type '->' f:Application _ ')'? _
   return { type: 'abstraction', arg: { type: t, id: id }, body: f };
 }
 
-Expr = IfThen / IsZeroCheck / ArithmeticOperation / Zero / True / False / Identifier / ParanExpression
+Expr = IfThen / IsZeroCheck / ArithmeticOperation / NumberLiteral / True / False / Identifier / ParanExpression
 
 ArithmeticOperation = o:Operator e:Application {
   return { type: 'arithmetic', operator: o, expression: e };
@@ -55,8 +55,8 @@ False = _ 'false' _ {
   return { type: 'literal', value: false };
 }
 
-Zero = _ '0' _ {
-  return { type: 'literal', value: 0 };
+NumberLiteral = _ id:[0-9]+ _ {
+  return { type: 'literal', value: parseInt(id, 10) };
 }
 
 ReservedWord = If / Then / Else / Dec / Inc / Num / Bool / IsZero / False / Fn
