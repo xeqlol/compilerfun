@@ -27,7 +27,9 @@ IsZeroCheck = IsZero e:Application {
   return { type: 'is_zero', expression: e };
 }
 
-Operator = Inc / Dec
+Operator = _ op:('inc' / 'dec' / 'mul' / 'div' / 'sum' / 'sub') _ {
+	return op;
+}
 
 IfThen = If expr:Application Then then:Application Else el:Application {
   return { type: 'conditional_expression', condition: expr, then: then, el: el };
@@ -59,21 +61,13 @@ NumberLiteral = _ id:[0-9]+ _ {
   return { type: 'literal', value: parseInt(id, 10) };
 }
 
-ReservedWord = If / Then / Else / Dec / Inc / Num / Bool / IsZero / False / Fn
+ReservedWord = If / Then / Else / Num / Bool / IsZero / False / Fn
 
 If = _'if'_
 
 Then = _'then'_
 
 Else = _'else'_
-
-Dec = _'dec'_ {
-  return 'dec';
-}
-
-Inc = _'inc'_ {
-  return 'inc';
-}
 
 Num = _'number'_ {
   return 'number';
