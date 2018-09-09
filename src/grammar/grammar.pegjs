@@ -57,8 +57,10 @@ False = _ 'false' _ {
   return { type: 'literal', value: false };
 }
 
-NumberLiteral = _ id:[0-9]+ _ {
-  return { type: 'literal', value: parseInt(id, 10) };
+NumberLiteral = _ id:(('+' / '-')? [0-9]+ ('.' [0-9]+)*) _ {
+  return { type: 'literal', value: parseFloat((function flatten(array) {
+    return array.reduce((arr, item) => arr.concat(item instanceof Array ? flatten(item) : item), [])
+    })(id).join(''))};
 }
 
 ReservedWord = If / Then / Else / Num / Bool / IsZero / False / Fn
@@ -84,3 +86,4 @@ IsZero = _'iszero'_ {
 Fn = _'fn'_ {
 	return 'fn';
 }
+
