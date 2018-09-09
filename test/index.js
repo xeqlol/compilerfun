@@ -7,6 +7,8 @@ const programs = [
   `(fn a: number -> sum a a) 1`,
   `(fn a: number -> sub a 2) 3`,
   `(fn a: number -> sum a mul a sub a 3) 1`,
+  `(fn a: number -> mul 2 inc a) 1`,
+  `(fn a: number -> pred a) 1`,
   `
   (
     fn x: number ->
@@ -21,7 +23,7 @@ const programs = [
 
 programs.forEach(program => {
   const compiled = run(program);
-  // console.log(chalk.yellow(`Source code: ${chalk.green(program)}`));
+  console.log(chalk.yellow(`Source code: ${chalk.green(program)}`));
   console.log(
     chalk.yellow(`Evaluation: ${chalk.green(eval(compiled))}`)
   ); /* eslint no-eval: off */

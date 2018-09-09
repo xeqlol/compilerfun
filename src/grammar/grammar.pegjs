@@ -27,7 +27,7 @@ IsZeroCheck = IsZero e:Application {
   return { type: 'is_zero', expression: e };
 }
 
-Operator = _ op:('inc' / 'dec' / 'mul' / 'div' / 'sum' / 'sub') _ {
+Operator = _ op:('inc' / 'dec' / 'mul' / 'div' / 'sum' / 'sub' / 'pred') _ {
 	return op;
 }
 

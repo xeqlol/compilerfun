@@ -72,9 +72,9 @@ function generateBinaryArithmetic(ast) {
   const right = compile(expression.right);
   switch (operator) {
     case 'mul':
-      return `${left} * ${right}\n`;
+      return `(${left} * ${right}\n)`;
     case 'div':
-      return `${left} / ${right}\n`;
+      return `(${left} / ${right}\n)`;
     case 'sum':
       return `(${left} + ${right}\n)`;
     case 'sub':
