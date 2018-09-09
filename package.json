@@ -3,10 +3,18 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "watch": "nodemon index.js",
+    "generate-parser": "yarn pegjs -o src/parser/index.js src/grammar/grammar.pegjs",
+    "format": "prettier --write \"src/**/*.js\"",
+    "test": "node test/index.js",
+    "commit": "./node_modules/.bin/git-cz"
+  },
   "dependencies": {
     "babel-eslint": "^9.0.0",
     "chalk": "^2.4.1",
     "commitizen": "^2.10.1",
+    "cz-conventional-changelog": "^2.1.0",
     "eslint": "^5.5.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^3.0.1",
@@ -17,13 +25,15 @@
     "prettier": "^1.14.2",
     "validate-commit-msg": "^2.14.0"
   },
-  "scripts": {
-    "watch": "nodemon index.js",
-    "generate-parser": "yarn pegjs -o src/parser/index.js src/grammar/grammar.pegjs",
-    "format": "prettier --write \"src/**/*.js\"",
-    "test": "node test/index.js",
-    "commit": "./node_modules/.bin/git-cz",
-    "commitmsg": "./node_modules/.bin/validate-commit-msg",
-    "precommit": "npm run format"
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run format",
+      "commit-msg": "./node_modules/.bin/validate-commit-msg"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

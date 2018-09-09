@@ -15,10 +15,9 @@ const typeEq = (a, b) => {
       }
       return true;
     }
-  } else {
-    if (typeof a === 'string' && typeof b === 'string') {
-      return a === b;
-    }
+    /* eslint no-else-return: off */
+  } else if (typeof a === 'string' && typeof b === 'string') {
+    return a === b;
   }
   return false;
 };
@@ -80,12 +79,11 @@ const check = (ast, diagnostics) => {
       const elseBranchType = elseBranch.type;
       if (typeEq(thenBranchType, elseBranchType)) {
         return thenBranch;
-      } else {
-        diagnostics.push('Incorrect type of then/else branches');
-        return {
-          diagnostics
-        };
       }
+      diagnostics.push('Incorrect type of then/else branches');
+      return {
+        diagnostics
+      };
     }
     case ASTNodes.Abstraction: {
       const scope = new Scope();

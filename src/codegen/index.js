@@ -1,7 +1,6 @@
+const prettier = require('prettier');
 const { SymbolTableImpl, Scope } = require('../types/symboltable');
 const { ASTNodes } = require('../ast');
-const prettier = require('prettier');
-const SymbolTable = new SymbolTableImpl();
 
 const compile = ast => {
   if (!ast) {
