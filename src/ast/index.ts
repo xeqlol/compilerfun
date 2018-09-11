@@ -1,4 +1,4 @@
-const ASTNodes = {
+export const ASTNodes = {
   Abstraction: 'abstraction',
   Condition: 'conditional_expression',
   Identifier: 'identifier',
@@ -8,12 +8,7 @@ const ASTNodes = {
   Application: 'application'
 };
 
-const Types = {
+export const Types = {
   Boolean: 'boolean',
   Number: 'number'
-};
-
-module.exports = {
-  ASTNodes,
-  Types
 };

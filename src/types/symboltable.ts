@@ -1,4 +1,6 @@
-class SymbolTableImpl {
+export class SymbolTableImpl {
+  table;
+
   constructor() {
     this.table = [];
   }
@@ -16,7 +18,9 @@ class SymbolTableImpl {
   }
 }
 
-class Scope {
+export class Scope {
+  map;
+
   constructor() {
     this.map = new Map();
   }
@@ -29,8 +33,3 @@ class Scope {
     return this.map.get(key);
   }
 }
-
-module.exports = {
-  SymbolTableImpl,
-  Scope
-};

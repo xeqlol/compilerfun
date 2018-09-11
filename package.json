@@ -4,13 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "watch": "nodemon index.js",
-    "generate-parser": "yarn pegjs -o src/parser/index.js src/grammar/grammar.pegjs",
-    "format": "prettier --write \"src/**/*.js\"",
-    "test": "node test/index.js",
-    "commit": "./node_modules/.bin/git-cz"
+    "parsergen": "yarn pegjs --plugin ts-pegjs -o src/parser/index.ts src/grammar/grammar.pegjs",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "test": "ts-node test/index.ts",
+    "commit": "./node_modules/.bin/git-cz",
+    "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
+    "@types/node": "^10.9.4",
     "babel-eslint": "^9.0.0",
     "chalk": "^2.4.1",
     "commitizen": "^2.10.1",
@@ -20,9 +21,11 @@
     "eslint-config-prettier": "^3.0.1",
     "eslint-plugin-import": "^2.14.0",
     "husky": "^0.14.3",
-    "nodemon": "^1.18.4",
     "pegjs": "^0.10.0",
     "prettier": "^1.14.2",
+    "ts-node": "^7.0.1",
+    "ts-pegjs": "^0.2.2",
+    "typescript": "^3.0.3",
     "validate-commit-msg": "^2.14.0"
   },
   "husky": {

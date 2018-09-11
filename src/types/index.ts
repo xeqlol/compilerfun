@@ -1,11 +1,9 @@
-const { Scope, SymbolTableImpl } = require('./symboltable');
-const { ASTNodes, Types } = require('../ast');
+import { Scope, SymbolTableImpl } from './symboltable';
+import { ASTNodes, Types } from '../ast';
 
 const SymbolTable = new SymbolTableImpl();
 
-function check(ast, diagnostics) {
-  diagnostics = diagnostics || [];
-
+export function check(ast, diagnostics = []) {
   if (!ast) {
     return {
       diagnostics
@@ -31,7 +29,7 @@ function check(ast, diagnostics) {
   }
 }
 
-function typeEq(left, right) {
+export function typeEq(left, right) {
   if (left instanceof Array && right instanceof Array) {
     if (left.length !== right.length) {
       return false;
@@ -50,7 +48,7 @@ function typeEq(left, right) {
   return false;
 }
 
-function checkLiteral(ast, diagnostics) {
+export function checkLiteral(ast, diagnostics) {
   if (typeof ast.value === 'number') {
     return {
       diagnostics,
@@ -69,14 +67,14 @@ function checkLiteral(ast, diagnostics) {
   }
 }
 
-function checkIdentifier(ast, diagnostics) {
+export function checkIdentifier(ast, diagnostics) {
   return {
     diagnostics,
     type: SymbolTable.lookup(ast.name)
   };
 }
 
-function checkCondition(ast, diagnostics) {
+export function checkCondition(ast, diagnostics) {
   if (!ast.then || !ast.el || !ast.condition) {
     diagnostics.push('No condition for a conditional expression');
     return {
@@ -107,7 +105,7 @@ function checkCondition(ast, diagnostics) {
   };
 }
 
-function checkAbstraction(ast, diagnostics) {
+export function checkAbstraction(ast, diagnostics) {
   const scope = new Scope();
   scope.set(ast.arg.id.name, ast.arg.type);
   SymbolTable.push(scope);
@@ -132,7 +130,7 @@ function checkAbstraction(ast, diagnostics) {
   };
 }
 
-function checkIsZero(ast, diagnostics) {
+export function checkIsZero(ast, diagnostics) {
   const body = check(ast.expression);
   diagnostics = diagnostics.concat(body.diagnostics);
   const bodyType = body.type;
@@ -148,7 +146,7 @@ function checkIsZero(ast, diagnostics) {
   };
 }
 
-function checkArithmetic(ast, diagnostics) {
+export function checkArithmetic(ast, diagnostics) {
   const body = check(ast.expression);
   diagnostics = diagnostics.concat(body.diagnostics);
   const bodyType = body.type;
@@ -164,7 +162,7 @@ function checkArithmetic(ast, diagnostics) {
   };
 }
 
-function checkApplication(ast, diagnostics) {
+export function checkApplication(ast, diagnostics) {
   const l = check(ast.left);
   const leftType = l.type || [];
   diagnostics = diagnostics.concat(l.diagnostics);
@@ -191,5 +189,3 @@ function checkApplication(ast, diagnostics) {
     return { diagnostics };
   }
 }
-
-module.exports.check = ast => check(ast);

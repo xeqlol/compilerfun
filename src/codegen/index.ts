@@ -1,15 +1,7 @@
-const prettier = require('prettier');
-const { SymbolTableImpl, Scope } = require('../types/symboltable');
-const { ASTNodes } = require('../ast');
+import prettier from 'prettier';
+import { ASTNodes } from '../ast';
 
-function generateCondition(ast) {
-  const targetCondition = compile(ast.condition);
-  const targetThen = compile(ast.then);
-  const targetElse = compile(ast.el);
-  return `${targetCondition} ? ${targetThen} : ${targetElse}\n`;
-}
-
-function compile(ast) {
+export function generateCode(ast) {
   if (!ast) {
     return '';
   }
@@ -21,16 +13,16 @@ function compile(ast) {
     case ASTNodes.Condition:
       return generateCondition(ast);
     case ASTNodes.Abstraction: {
-      return `(${ast.arg.id.name} => ${compile(ast.body)})`;
+      return `(${ast.arg.id.name} => ${generateCode(ast.body)})`;
     }
     case ASTNodes.IsZero: {
-      return `${compile(ast.expression)} === 0\n`;
+      return `${generateCode(ast.expression)} === 0\n`;
     }
     case ASTNodes.Arithmetic:
       return generateArithmetic(ast);
     case ASTNodes.Application: {
-      const left = compile(ast.left);
-      const right = compile(ast.right);
+      const left = generateCode(ast.left);
+      const right = generateCode(ast.right);
       return `${left}(${right})\n`;
     }
     default:
@@ -38,7 +30,14 @@ function compile(ast) {
   }
 }
 
-function generateArithmetic(ast) {
+export function generateCondition(ast) {
+  const targetCondition = generateCode(ast.condition);
+  const targetThen = generateCode(ast.then);
+  const targetElse = generateCode(ast.el);
+  return `${targetCondition} ? ${targetThen} : ${targetElse}\n`;
+}
+
+export function generateArithmetic(ast) {
   const {
     expression: { type }
   } = ast;
@@ -51,9 +50,9 @@ function generateArithmetic(ast) {
   }
 }
 
-function generateDefaultArithmetic(ast) {
+export function generateDefaultArithmetic(ast) {
   const { operator } = ast;
-  const value = compile(ast.expression);
+  const value = generateCode(ast.expression);
   switch (operator) {
     case 'inc':
       return `(${value} + 1\n)`;
@@ -66,10 +65,10 @@ function generateDefaultArithmetic(ast) {
   }
 }
 
-function generateBinaryArithmetic(ast) {
+export function generateBinaryArithmetic(ast) {
   const { expression, operator } = ast;
-  const left = compile(expression.left);
-  const right = compile(expression.right);
+  const left = generateCode(expression.left);
+  const right = generateCode(expression.right);
   switch (operator) {
     case 'mul':
       return `(${left} * ${right}\n)`;
@@ -84,11 +83,12 @@ function generateBinaryArithmetic(ast) {
   }
 }
 
-module.exports.compile = ast =>
-  prettier.format(compile(ast), {
+export function compile(ast) {
+  return prettier.format(generateCode(ast), {
     printWidth: 80,
     tabWidth: 2,
     trailingComma: 'none',
     bracketSpacing: true,
     parser: 'babylon'
   });
+}

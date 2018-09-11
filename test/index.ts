@@ -1,5 +1,5 @@
-const chalk = require('chalk');
-const { run } = require('../src');
+import chalk from 'chalk';
+import run from '../src';
 
 const programs = [
   `(fn a: number -> mul a a)`,

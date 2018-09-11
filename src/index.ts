@@ -1,6 +1,6 @@
-const { parse } = require('./parser');
-const { check } = require('./types');
-const { compile } = require('./codegen');
+import { parse } from './parser';
+import { check } from './types';
+import { compile } from './codegen';
 
 const getAst = program => {
   const ast = parse(program);
@@ -14,7 +14,7 @@ const getAst = program => {
   return ast;
 };
 
-module.exports.run = source => {
+export default source => {
   const ast = getAst(source);
   return compile(ast);
 };
