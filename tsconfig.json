@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "target": "es5",
     "lib": ["es5", "es6"],
     "types": ["node"],
-    "module": "commonjs"
-  },
-  "files": ["src/*", "test/*"]
+    "baseUrl": "src",
+    "moduleResolution": "node"
+  }
 }
